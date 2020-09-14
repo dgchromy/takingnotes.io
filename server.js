@@ -47,3 +47,48 @@ app.post('/api/notes', function(req, res){
         console.error(err);
     }
 });
+
+//deleting the note 
+
+app.delete('/api/notes/:id', function(reg, res) {
+    try{ activeNote = fs.readFileSync('./db/db.json', 'utf8');
+// parse the data to get an array of objects 
+activeNote = JSON.parse(activeNote);
+activeNote = activeNote.filter(function(note){
+    return note.id != req.params.id;
+});
+activeNote = JSON.stringify(activeNote);
+fs.writeFile('.db/db.json', activeNote, 'utf8', function(err){
+    if (err) throw err;
+
+});
+res.send(JSON.parse(active));
+
+
+} catch (err) {
+    throw err;
+    console.log(err);
+}
+
+});
+
+app.delete('/api/notes/:id', function(req, res){
+    try{
+    activeNote = fs.readFileSync('./db/db.json', 'utf8');
+    activeNote = JSON.parse(activeNote);
+    activeNote = activeNote.filter(function(note)
+    {
+    return note.id != req.params.id;
+
+    });
+    activeNote = JSON.stringify(activeNote);
+    fs.writeFile('./db/db.json', activeNote, 'utf8', function(err){
+        if (err) throw err;
+    });
+
+        res.send(JSON.parse(activeNote));
+    } catch (err){
+        throw err;
+        console.log(err);
+    }
+});
