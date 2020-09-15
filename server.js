@@ -28,13 +28,13 @@ app.get('/api/notes', function(err, res) {
    res.json(activeNote);
 });
 
-app.post('/api/notes', function(req, res){
+app.post('./api/notes', function(req, res){
     try{
         activeNote = fs.readFileSync('./db/db.json', 'utf8');
         console.log(activeNote);
 
         activeNote = JSON.parse(activeNote);
-        Req.body.id = activeNote.length;
+        req.body.id = activeNote.length;
         activeNote.push(req.body);
         activeNote = JSON.stringify(activeNote);
         fs.writeFile('./db/db.json', activeNote, 'utf8', function(err){
@@ -50,7 +50,7 @@ app.post('/api/notes', function(req, res){
 
 //deleting the note 
 
-app.delete('/api/notes/:id', function(reg, res) {
+app.delete('.api/notes/:id', function(reg, res) {
     try{ activeNote = fs.readFileSync('./db/db.json', 'utf8');
 // parse the data to get an array of objects 
 activeNote = JSON.parse(activeNote);
@@ -72,7 +72,7 @@ res.send(JSON.parse(active));
 
 });
 
-app.delete('/api/notes/:id', function(req, res){
+app.delete('./api/notes/:id', function(req, res){
     try{
     activeNote = fs.readFileSync('./db/db.json', 'utf8');
     activeNote = JSON.parse(activeNote);
@@ -87,8 +87,25 @@ app.delete('/api/notes/:id', function(req, res){
     });
 
         res.send(JSON.parse(activeNote));
+
     } catch (err){
         throw err;
         console.log(err);
     }
 });
+
+app.get('./notes', function (req, res) {
+    res.sendFile(path.join(__dirname, 'public/notes.html'));
+});
+
+app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
+app.get('./api/notes', function (req, res) {
+    res.sendFile(path.join(__dirname, 'db/db.json'));
+});
+
+app.listen(PORT, function(){
+    console.log('App Listening on: http://localhost:' + PORT)
+})
